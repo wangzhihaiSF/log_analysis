@@ -18,7 +18,7 @@ class HandleLog:
         self.sms_dict = {}
         self.sOut = ''
         self.nTop = 100
-        self.file_name = self.create_file_name()
+        self.save_file_name = self.create_file_name()
 
     def get_result(self, file_name):
         try:
@@ -60,9 +60,8 @@ class HandleLog:
                 n += 1
 
     def write_data(self, data):
-        file_name = self.file_name
+        file_name = self.save_file_name
         with open(file_name, "a", encoding="utf-8-sig", newline="") as fp:
-            # fp.write(codecs.BOM_UTF8)
             writer = csv.writer(fp)
             writer.writerow(data)
 
