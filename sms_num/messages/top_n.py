@@ -1,14 +1,14 @@
 import json
 import os
 import csv
-from datetime import datetime
 import argparse
 from sms_num.messages.find_str import getSubStr_offset
-
+# 日志存放的路劲，若放到服务器需要绝对路劲
 g_cur_file_path = os.path.abspath(os.path.dirname(__file__))
 parser = argparse.ArgumentParser(description='top_n')
 parser.add_argument("-log", "--log", help="logfile full name", default="-1")
 parser.add_argument("-out", "--out", help="output full name", default="-1")
+parser.add_argument("-input", "--input", help="input full file name", default="-1")
 parser.add_argument("-top", "--top", help="top n", default=100, type=int)
 args = parser.parse_args()
 
@@ -66,8 +66,7 @@ class HandleLog:
             writer.writerow(data)
 
     def create_file_name(self):
-        today = datetime.now()
-        file_name = self.sOut + today.strftime("%Y%m%d") + ".csv"
+        file_name = self.sOut + "messages" + args.input[:-4] + ".csv"
         return file_name
 
     def load_json(self):
@@ -79,8 +78,9 @@ class HandleLog:
 def my_main():
     if 1:
         print('in test mode')
-        args.log = g_cur_file_path + '/real_log.log'
-        args.out = os.path.abspath(g_cur_file_path)
+        args.input = input("请输入文件名字")
+        args.log = g_cur_file_path + '/' + args.input
+        args.out = g_cur_file_path
     if args.out == '-1' or args.log == '-1':
         print('check cmdline ', args)
         return
